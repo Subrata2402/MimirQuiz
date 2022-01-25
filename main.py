@@ -152,13 +152,13 @@ class Websocket:
 			event = msg.event
 			await self.send_hook(event)
 			if event == "GameStatus":
-				await self.send_hook(event)
+				pass
 
 			elif event == "ViewCountUpdate":
 				pass
 
 			elif event == "QuestionStart":
-				data = event.data
+				data = msg.data
 				question = data["question"]
 				question_number = data["number"]
 				total_question = data["total"]
@@ -183,7 +183,7 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionResult":
-				data = event.data
+				data = msg.data
 				question = data["question"]
 				s = 0
 				for index, choice in enumerate(data["choices"]):
