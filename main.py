@@ -152,7 +152,7 @@ class Websocket:
 			event = msg.event
 			await self.send_hook(event)
 			if event == "GameStatus":
-				pass
+				await self.send_hook("Game Status")
 
 			elif event == "ViewCountUpdate":
 				pass
