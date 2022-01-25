@@ -186,7 +186,7 @@ class Websocket:
 				question = data["question"]
 				s = 0
 				for index, choice in enumerate(data["choices"]):
-					if correct == True:
+					if correct == "true":
 						ans_num = index + 1
 						answer = choice["answer"]
 						advance_players = choice["responses"]
