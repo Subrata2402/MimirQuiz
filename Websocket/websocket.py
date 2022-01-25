@@ -150,6 +150,7 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
+			data = json.loads(msg.data)
 			await self.send_hook(event)
 			if event == "GameStatus":
 				pass
@@ -158,7 +159,6 @@ class Websocket:
 				pass
 
 			elif event == "QuestionStart":
-				data = json.loads(msg.data)
 				question = data["question"]
 				question_number = data["number"]
 				total_question = data["total"]
@@ -183,7 +183,6 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionResult":
-				data = json.loads(msg.data)
 				question = data["question"]
 				s = 0
 				for index, choice in enumerate(data["choices"]):
@@ -209,7 +208,6 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "GameWinners":
-				data = josn.loads(msg.data)
 				winners = int(data["winnerCount"])
 				ans = (self.prize)/(winners)
 				payout = float("{:.2f}".format(ans))
