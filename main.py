@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from Websocket.websocket import Websocket
 
-class Vedantu(commands.Cog, Websocket):
+class MimirQuiz(commands.Cog, Websocket):
     
     def __init__(self, client):
         super().__init__()
@@ -12,26 +12,20 @@ class Vedantu(commands.Cog, Websocket):
     async def on_ready(self):
         print("Ready!")
         
-    @commands.command(aliases = ["quiz", "nextved", "nextvedantu", "nextvd"])
+    @commands.command(aliases = ["quiz", "mimir"])
     async def nextquiz(self, ctx):
-        await self.quiz_details()
+        await self.get_quiz_details("send")
     
     @commands.command(aliases = ["open"])
     async def start(self, ctx):
         if not self.ws_is_opened:
             await self.send_hook("**Websocket Opened!**")
-            await self.hook_start()
+            await self.start_hook()
         else:
             await self.send_hook("**Websocket Already Opened!**")
             
-    @commands.command()
-    async def close(self, ctx):
-        if self.ws_is_opened:
-            await self.hook_close()
-        else:
-            await self.send_hook("**Websocket Already Closed!**")
-            
+
 client = commands.Bot(command_prefix = "-")
-client.add_cog(Vedantu(client))
+client.add_cog(MimirQuiz(client))
             
 client.run("ODAzMTc1OTQ1OTMwMTQ1Nzky.YA594w.Hzq49nLxp-KzwFRKh9mqDvi3Mqg")
