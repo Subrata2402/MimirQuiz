@@ -78,7 +78,8 @@ class Websocket:
 		headers = {
 			"host": "apic.us.theq.live",
 			"user-Agent": "Mozilla/5.0 (Linux; Android 10; RMX1827) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36",
-			"accept": "application/json, text/plain, */*",    "content-type":"application/json",
+			"accept": "application/json, text/plain, */*",
+			"content-type":"application/json",
 			"origin": "https://play.us.theq.live",
 			"referer": "https://play.us.theq.live/",
 			"accept-encoding": "gzip, deflate",
@@ -132,7 +133,7 @@ class Websocket:
 			"Connection": "keep-alive",
 			"Authorization": self.bearer_token,
 			"Accept": "text/event-stream",
-			"Cache-Control": "no-cache",    
+			"Cache-Control": "no-cache",
 			"User-Agent": "Mozilla/5.0 (Linux; Android 10; RMX1827) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36",
 			"Origin": "https://play.us.theq.live",
 			"Sec-Fetch-Site": "same-site",
