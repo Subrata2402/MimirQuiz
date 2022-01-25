@@ -150,6 +150,7 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
+			await self.send_hook(event)
 			if event == "GameStatus":
 				pass
 
