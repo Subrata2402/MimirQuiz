@@ -3,7 +3,6 @@ import json
 import discord
 from discord.ext import commands
 import datetime
-from pytz import timezone
 from sseclient import SSEClient
 import aiohttp
 import asyncio
@@ -57,10 +56,7 @@ class Websocket:
 				topic = data["label"]
 				description = data["description"]
 				self.prize = data["reward"]
-				time = data["scheduled"]
-				time = datetime.datetime.fromtimestamp(int(time)/1000)
-                                time = time.astimezone(timezone("Asia/Kolkata"))
-				time = time.strftime("%d-%m-%Y | %I:%M %p")
+				time = f"<t:{int(data["scheduled"]/1000)}>"
 				gameType = data["winCondition"]
 				self.game_id = data["id"]
 				self.partner_id = data["partnerId"]
