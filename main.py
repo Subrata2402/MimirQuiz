@@ -88,7 +88,7 @@ class Websocket:
 		}
 		post_data='{"mimir":{"accessToken":"token"}}'
 		newdata = json.loads(post_data)
-		newdata["mimir"]["accessToken"] = token
+		newdata["mimir"]["accessToken"] = self.token
 		post_data = json.dumps(newdata)
 		async with aiohttp.ClientSession() as session:
 			async with session.post(url = url, headers = headers, data = post_data) as response:
