@@ -143,6 +143,8 @@ class Websocket:
 		}
 		try:
 			messages = SSEClient(url, headers = headers)
+			embed = discord.Embed(title = "Websocket is Connected Successfully!", color = discord.Colour.random())
+			await self.send_hook(embed = embed)
 		except:
 			return await self.send_hook("Failed to connect websocket!")
 		self.ws_is_opened = True
