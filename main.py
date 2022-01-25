@@ -134,9 +134,7 @@ class Websocket:
 			"Authorization": self.bearer_token,
 			"Accept": "text/event-stream",
 			"Cache-Control": "no-cache",    
-			"Sec-Fetch-Dest":"empty",
 			"User-Agent": "Mozilla/5.0 (Linux; Android 10; RMX1827) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36",
-			"Last-Event-ID": "1643036827584",
 			"Origin": "https://play.us.theq.live",
 			"Sec-Fetch-Site": "same-site",
 			"Sec-Fetch-Mode": "cors",
@@ -151,3 +149,17 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
+			if event == "GameStatus":
+				pass
+
+			elif event == "ViewCountUpdate":
+				pass
+
+			elif event == "QuestionStart":
+				pass
+
+			elif event == "QuestionEnd":
+				pass
+
+			elif event == "QuestionResult":
+				pass
