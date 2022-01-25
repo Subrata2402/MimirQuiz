@@ -56,7 +56,7 @@ class Websocket:
 				topic = data["label"]
 				description = data["description"]
 				self.prize = data["reward"]
-				time = f"<t:{int(data["scheduled"]/1000)}>"
+				time = f'<t:{int(data["scheduled"]/1000)}>'
 				gameType = data["winCondition"]
 				self.game_id = data["id"]
 				self.partner_id = data["partnerId"]
