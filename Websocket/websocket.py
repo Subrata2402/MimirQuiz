@@ -20,6 +20,7 @@ class Websocket:
 		self.partner_id = None
 		self.user_id = None
 		self.bearer_token = None
+
 	def embeded(self,x):
 		embed = discord.Embed(title = f"{x}", color = discord.Colour.random())
 		return embed
