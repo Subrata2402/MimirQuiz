@@ -75,7 +75,7 @@ class Websocket:
 					await self.send_hook(embed = embed)
 
 	async def get_access_token(self):
-		await self.get_quiz_details()
+		await self.get_quiz_details("send")
 		url = f"https://apic.us.theq.live/v2/oauth/token?partnerCode={self.partner_id}"
 		headers = {
 			"host": "apic.us.theq.live",
@@ -101,7 +101,7 @@ class Websocket:
 				self.user_id = r["user"]["id"]
 				self.bearer_token = token_type + " " + new_token
 				
-	async def get_host(self)
+	async def get_host(self):
 		await self.get_access_token()
 		url = f"https://apic.us.theq.live/v2/games/active/{self.game_id}?userId={self.user_id}"
 		headers = {
