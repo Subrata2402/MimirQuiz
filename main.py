@@ -46,7 +46,7 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					return await self.send_hook("The token has expired!")
+					await self.send_hook("The token has expired!")
 					raise commands.CommandError("Token has expired!")
 				r = await response.json()
 				data = r["data"]["data"][0]
@@ -130,20 +130,19 @@ class Websocket:
 		url = f"https://{host}/v2/event-feed/games/{self.game_id}"
 		headers = {
 			"Host": host,
-			"Connection":"keep-alive",
-			"Authorization":f"{type} {new_token}",
-			"Accept":"text/event-stream",
-			"Cache-Control":"no-cache",    
+			"Connection": "keep-alive",
+			"Authorization": self.bearer_token,
+			"Accept": "text/event-stream",
+			"Cache-Control": "no-cache",    
 			#"Sec-Fetch-Dest":"?1",
-			"User-Agent":"Mozilla/5.0 (Linux; Android 10; RMX1827) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36",
-			"Last-Event-ID":"1643036827584",
-			"Origin":"https://play.us.theq.live",
-			"Sec-Fetch-Site":"same-site",
-			"Sec-Fetch-Mode":"cors",
-			"Referer":"https://play.us.theq.live/",
-			#"Referer":f"https://play.us.theq.live/partner/mimir/game/{game_id}?authType=mimir&authToken={token}",
-			"Accept-Encoding":"gzip, deflate, br",
-			"Accept-Language":"en-US,en;q=0.9"
+			"User-Agent": "Mozilla/5.0 (Linux; Android 10; RMX1827) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36",
+			"Last-Event-ID": "1643036827584",
+			"Origin": "https://play.us.theq.live",
+			"Sec-Fetch-Site": "same-site",
+			"Sec-Fetch-Mode": "cors",
+			"Referer": "https://play.us.theq.live/",
+			"Accept-Encoding": "gzip, deflate, br",
+			"Accept-Language": "en-US,en;q=0.9"
 		}
 		try:
 			messages = SSEClient(url, headers = headers)
