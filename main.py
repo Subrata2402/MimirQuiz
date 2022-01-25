@@ -75,7 +75,7 @@ class Websocket:
 					await self.send_hook(embed = embed)
 
 	async def get_access_token(self):
-		await self.get_quiz_details("send")
+		await self.get_quiz_details()
 		url = f"https://apic.us.theq.live/v2/oauth/token?partnerCode={self.partner_id}"
 		headers = {
 			"host": "apic.us.theq.live",
@@ -221,6 +221,3 @@ class Websocket:
 				embed.set_thumbnail(url = self.icon_url)
 				embed.set_footer(text = "Mimir Quiz")
 				await self.send_hook(embed = embed)
-
-ws = Websocket()
-asyncio.run(ws.start_hook())
