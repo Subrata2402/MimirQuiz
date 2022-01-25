@@ -158,7 +158,7 @@ class Websocket:
 				pass
 
 			elif event == "QuestionStart":
-				data = msg.data
+				data = json.loads(msg.data)
 				question = data["question"]
 				question_number = data["number"]
 				total_question = data["total"]
@@ -183,7 +183,7 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionResult":
-				data = msg.data
+				data = json.loads(msg.data)
 				question = data["question"]
 				s = 0
 				for index, choice in enumerate(data["choices"]):
@@ -206,6 +206,20 @@ class Websocket:
 				)
 				embed.set_footer(text = "Mimir Quiz")
 				embed.set_thumbnail(url = self.icon_url)
+				await self.send_hook(embed = embed)
+
+			elif event == "GameWinners":
+				data = josn.loads(msg.data)
+				winners = int(data["winnerCount"])
+				ans = (self.prize)/(winners)
+				payout = float("{:.2f}".format(ans))
+				embed = discord.Embed(title = "Game Summary !",
+					description = f"● Payout : {payout}\n● Total Winners : {winners}\n● Prize Money : {self.prize}",
+					color = discord.Colour.random(),
+					timestamp = datetime.datetime.utcnow()
+					)
+				embed.set_thumbnail(url = self.icon_url)
+				embed.set_footer(text = "Mimir Quiz")
 				await self.send_hook(embed = embed)
 
 ws = Websocket()
