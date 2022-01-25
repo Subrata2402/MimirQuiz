@@ -20,6 +20,9 @@ class Websocket:
 		self.partner_id = None
 		self.user_id = None
 		self.bearer_token = None
+	def embeded(self,x):
+		embed = discord.Embed(title = "x", color = discord.Colour.random())
+		return embed
 
 	async def send_hook(self, content = "", embed = None):
 		async with aiohttp.ClientSession() as session:
@@ -119,7 +122,8 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					embed = discord.Embed(title = "Host Error...(Game is not live)", color = discord.Colour.random())
+					#embed = discord.Embed(title = "Host Error...(Game is not live)", color = discord.Colour.random())
+					embed = self.embeded("Host Error...(Game is not live)")
 					await self.send_hook(embed = embed)
 					raise commands.CommandError("Host Error")
 				r = await response.json()
