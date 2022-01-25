@@ -1,6 +1,5 @@
 import requests
 import json
-from pytz import timezone
 import discord
 from discord.ext import commands
 import datetime
@@ -58,7 +57,6 @@ class Websocket:
 				self.prize = data["reward"]
 				time = data["scheduled"]
 				time = datetime.datetime.fromtimestamp(int(time)/1000)
-                                time = time.astimezone(timezone("Asia/Kolkata"))
 				time = time.strftime("%d-%m-%Y | %I:%M %p")
 				gameType = data["winCondition"]
 				self.game_id = data["id"]
@@ -102,7 +100,7 @@ class Websocket:
 				self.user_id = r["user"]["id"]
 				self.bearer_token = token_type + " " + new_token
 				
-	async def get_host(self):
+	async def get_host(self)
 		await self.get_access_token()
 		url = f"https://apic.us.theq.live/v2/games/active/{self.game_id}?userId={self.user_id}"
 		headers = {
@@ -158,10 +156,52 @@ class Websocket:
 				pass
 
 			elif event == "QuestionStart":
-				pass
+				data = event.data
+				question = data["question"]
+				question_number = data["number"]
+				total_question = data["total"]
+				option_1 = choices[0]["choice"]
+				option_2 = choices[1]["choice"]
+				option_3 = choices[2]["choice"]
+				embed = discord.Embed(
+					title = f"Question {question_number} out of {total_question}",
+					description = question,
+					color = discord.Colour.random(),
+					timestamp = datetime.datetime.utcnow()
+					)
+				embed.add_field(name = "Option - 1", value = option_1, inline = False)
+				embed.add_field(name = "Option - 2", value = option_2, inline = False)
+				embed.add_field(name = "Option - 3", value = option_3, inline = False)
+				embed.set_thumbnail(url = self.icon_url)
+				embed.set_footer(text = "Mimir Quiz")
+				await self.send_hook(embed = embed)
 
 			elif event == "QuestionEnd":
-				pass
+				embed = discord.Embed(title = "Question End!", color = discord.Colour.random())
+				await self.send_hook(embed = embed)
 
 			elif event == "QuestionResult":
-				pass
+				data = event.data
+				question = data["question"]
+				s = 0
+				for index, choice in enumerate(data["choices"]):
+					if correct == True:
+						ans_num = index + 1
+						answer = choice["answer"]
+						advance_players = choice["responses"]
+					s += choice["responses"]
+				eliminate_players = s - advance_players
+				embed = discord.Embed(
+					title = "Question Result!",
+					description = question,
+					color = discord.Colour.random(),
+					timestamp = datetime.datetime.utcnow()
+					)
+				embed.add_field(name = "Correct Answer :", value = f"Option {ans_num}. {answer}", inline = False)
+				embed.add_field(name = "Status :",
+					value = f"Advancing Players : {advance_players}\nEliminated Players : {eliminate_players}",
+					inline = False
+				)
+				embed.set_footer(text = "Mimir Quiz")
+				embed.set_thumbnail(url = self.icon_url)
+				await self.send_hook(embed = embed)
