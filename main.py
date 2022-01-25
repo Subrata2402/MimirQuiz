@@ -85,7 +85,7 @@ class Websocket:
 			"accept-encoding": "gzip, deflate",
 			"accept-language": "en-US,en;q=0.9"
 		}
-        post_data='{"mimir":{"accessToken":"token"}}'
+		post_data='{"mimir":{"accessToken":"token"}}'
 		newdata = json.loads(post_data)
 		newdata["mimir"]["accessToken"] = token
 		post_data = json.dumps(newdata)
@@ -121,7 +121,7 @@ class Websocket:
 					raise commands.CommandError("Host Error")
 				r = await response.json()
 				data = r["game"]
-				self.active = data["active"]
+				self.game_is_active = data["active"]
 				host = data["host"]
 				return host
 
