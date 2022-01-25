@@ -30,7 +30,7 @@ class Websocket:
 				avatar_url = self.icon_url
 				)
 				
-	async def get_quiz_details(self):
+	async def get_quiz_details(self, get_type = None):
 		url = "https://api.mimir-prod.com//games/list?type=play_free"
 		headers = {
 			"host": "api.mimir-prod.com",
@@ -47,6 +47,7 @@ class Websocket:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
 					return await self.send_hook("The token has expired!")
+					raise commands.CommandError("Token has expired!")
 				r = await response.json()
 				data = r["data"]["data"][0]
 				self.game_is_active = data["active"]
@@ -69,11 +70,11 @@ class Websocket:
 				embed.add_field(name = "Prize Money :", value = self.prize, inline = False)
 				embed.add_field(name = "Date & Time :", value = time, inline = False)
 				embed.set_thumbnail(url = image)
-				await self.send_hook(embed = embed)
+				if get_type == "send":
+					await self.send_hook(embed = embed)
 
 	async def get_access_token(self):
-		if not self.partner_id:
-			return await self.send_hook("Please run `-quiz` first for take some details.")
+		await self.get_quiz_details()
 		url = f"https://apic.us.theq.live/v2/oauth/token?partnerCode={self.partner_id}"
 		headers = {
 			"host": "apic.us.theq.live",
@@ -91,8 +92,8 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.post(url = url, headers = headers, data = post_data) as response:
 				if response.status != 200:
-					await self.send_hook("Something unexpected happened while taking access token.")
-					raise commands.CommandError("Something unexpected happened while taking access token.")
+					await self.send_hook("Get access token error...")
+					raise commands.CommandError("Get access token error...")
 				r = await response.json()
 				new_token = r["oauth"]["accessToken"]
 				token_type = r["oauth"]["tokenType"]
@@ -100,6 +101,7 @@ class Websocket:
 				self.bearer_token = token_type + " " + new_token
 				
 	async def get_host(self)
+		await self.get_access_token()
 		url = f"https://apic.us.theq.live/v2/games/active/{self.game_id}?userId={self.user_id}"
 		headers = {
 			"Host": "apic.us.theq.live",
@@ -115,7 +117,7 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					await self.send_hook("Host Error...")
+					await self.send_hook("Host Error...(Game is not live)")
 					raise commands.CommandError("Host Error")
 				r = await response.json()
 				data = r["game"]
@@ -124,7 +126,6 @@ class Websocket:
 				return host
 
 	async def start_hook(self):
-		await self.get_access_token()
 		host = await self.get_host()
 		url = f"https://{host}/v2/event-feed/games/{self.game_id}"
 		headers = {
@@ -145,9 +146,9 @@ class Websocket:
 			"Accept-Language":"en-US,en;q=0.9"
 		}
 		try:
-			messages = SSEClient(url_1, headers = headers)
+			messages = SSEClient(url, headers = headers)
 		except:
 			return await self.send_hook("Failed to connect websocket!")
 		self.ws_is_opened = True
 		for msg in messages:
-			data = msg.data
+			event = msg.event
