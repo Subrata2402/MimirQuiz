@@ -2,3 +2,4 @@ asyncio
 requests
 discord
 sseclient
+pytz
