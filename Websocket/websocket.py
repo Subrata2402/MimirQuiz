@@ -47,7 +47,8 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					await self.send_hook("The token has expired!")
+					embed = discord.Embed(title = "The Auth token has expired!", color = discord.Colour.random())
+					await self.send_hook(embed = embed)
 					raise commands.CommandError("Token has expired!")
 				r = await response.json()
 				data = r["data"]["data"][0]
@@ -92,7 +93,8 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.post(url = url, headers = headers, data = post_data) as response:
 				if response.status != 200:
-					await self.send_hook("Get access token error...")
+					embed = discord.Embed(title = "Get access token error!", color = discord.Colour.random())
+					await self.send_hook(embed = embed)
 					raise commands.CommandError("Get access token error...")
 				r = await response.json()
 				new_token = r["oauth"]["accessToken"]
@@ -117,7 +119,8 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					await self.send_hook("Host Error...(Game is not live)")
+					embed = discord.Embed(title = "Host Error...(Game is not live)", color = discord.Colour.random())
+					await self.send_hook(embed = embed)
 					raise commands.CommandError("Host Error")
 				r = await response.json()
 				data = r["game"]
@@ -147,7 +150,8 @@ class Websocket:
 			embed = discord.Embed(title = "Websocket is Connected Successfully!", color = discord.Colour.random())
 			await self.send_hook(embed = embed)
 		except:
-			return await self.send_hook("Failed to connect websocket!")
+			embed = discord.Embed(title = "Failed to connect websocket!", color = discord.Colour.random())
+			return await self.send_hook(embed = embed)
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
