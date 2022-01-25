@@ -219,3 +219,4 @@ class Websocket:
 				embed.set_thumbnail(url = self.icon_url)
 				embed.set_footer(text = "Mimir Quiz")
 				await self.send_hook(embed = embed)
+				self.ws_is_opened = False
