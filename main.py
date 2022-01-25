@@ -100,7 +100,7 @@ class Websocket:
 				self.user_id = r["user"]["id"]
 				self.bearer_token = token_type + " " + new_token
 				
-	async def get_host(self)
+	async def get_host(self):
 		await self.get_access_token()
 		url = f"https://apic.us.theq.live/v2/games/active/{self.game_id}?userId={self.user_id}"
 		headers = {
