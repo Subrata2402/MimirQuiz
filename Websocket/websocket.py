@@ -21,7 +21,7 @@ class Websocket:
 		self.user_id = None
 		self.bearer_token = None
 	def embeded(self,x):
-		embed = discord.Embed(title = "x", color = discord.Colour.random())
+		embed = discord.Embed(title = f"{x}", color = discord.Colour.random())
 		return embed
 
 	async def send_hook(self, content = "", embed = None):
