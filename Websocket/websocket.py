@@ -179,20 +179,20 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionEnd":
-				embed = discord.Embed(title = "Question End!", color = discord.Colour.random())
+				embed = discord.Embed(title = "Question has Ended!", color = discord.Colour.random())
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionResult":
 				data = json.loads(msg.data)
 				question = data["question"]
-				s = 0
+				total_players = 0
 				for index, choice in enumerate(data["choices"]):
 					if correct == True:
 						ans_num = index + 1
 						answer = choice["choice"]
 						advance_players = choice["responses"]
-					s += choice["responses"]
-				eliminate_players = s - advance_players
+					total_players += choice["responses"]
+				eliminate_players = total_players - advance_players
 				embed = discord.Embed(
 					title = "Question Result!",
 					description = question,
@@ -209,6 +209,7 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "GameWinners":
+				data = json.loads(msg.data)
 				winners = int(data["winnerCount"])
 				ans = (self.prize)/(winners)
 				payout = float("{:.2f}".format(ans))
