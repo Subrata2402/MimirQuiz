@@ -134,7 +134,7 @@ class Websocket:
 			"Authorization": self.bearer_token,
 			"Accept": "text/event-stream",
 			"Cache-Control": "no-cache",    
-			#"Sec-Fetch-Dest":"?1",
+			"Sec-Fetch-Dest":"empty",
 			"User-Agent": "Mozilla/5.0 (Linux; Android 10; RMX1827) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Mobile Safari/537.36",
 			"Last-Event-ID": "1643036827584",
 			"Origin": "https://play.us.theq.live",
