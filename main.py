@@ -5,6 +5,7 @@ from discord.ext import commands
 import datetime
 from sseclient import SSEClient
 import aiohttp
+import asyncio
 
 class Websocket:
 	
@@ -205,3 +206,6 @@ class Websocket:
 				embed.set_footer(text = "Mimir Quiz")
 				embed.set_thumbnail(url = self.icon_url)
 				await self.send_hook(embed = embed)
+
+ws = Websocket()
+asyncio.run(ws.start_hook())
