@@ -150,7 +150,6 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
-			data = json.loads(msg.data)
 			await self.send_hook(event)
 			if event == "GameStatus":
 				pass
@@ -159,12 +158,13 @@ class Websocket:
 				pass
 
 			elif event == "QuestionStart":
+				data = json.loads(msg.data)
 				question = data["question"]
 				question_number = data["number"]
 				total_question = data["total"]
-				option_1 = choices[0]["choice"]
-				option_2 = choices[1]["choice"]
-				option_3 = choices[2]["choice"]
+				option_1 = data["choices"][0]["choice"]
+				option_2 = data["choices"][1]["choice"]
+				option_3 = data["choices"][2]["choice"]
 				embed = discord.Embed(
 					title = f"Question {question_number} out of {total_question}",
 					description = question,
@@ -183,12 +183,13 @@ class Websocket:
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionResult":
+				data = json.loads(msg.data)
 				question = data["question"]
 				s = 0
 				for index, choice in enumerate(data["choices"]):
-					if correct == "true":
+					if correct == True:
 						ans_num = index + 1
-						answer = choice["answer"]
+						answer = choice["choice"]
 						advance_players = choice["responses"]
 					s += choice["responses"]
 				eliminate_players = s - advance_players
@@ -219,4 +220,11 @@ class Websocket:
 				embed.set_thumbnail(url = self.icon_url)
 				embed.set_footer(text = "Mimir Quiz")
 				await self.send_hook(embed = embed)
+				
+			elif event == "GameEnded":
+				embed = discord.Embed(title = "Game has Ended !",
+					description = "Thanks for playing!", color = discord.Colour.random()
+					)
+				await self.send_hook(embed = embed)
 				self.ws_is_opened = False
+				return
