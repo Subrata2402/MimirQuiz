@@ -328,4 +328,4 @@ class Websocket:
 					)
 				await self.send_hook(embed = embed)
 				self.ws_is_opened = False
-				retur
+				return
