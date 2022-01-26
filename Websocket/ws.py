@@ -222,7 +222,7 @@ class Websocket:
 					elif cnop2 == maxcount:
 						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}**\n４. **{option_4}** : {cnop4}"
 					elif cnop3 == maxcount:
-						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}** ✅\n４. **{option_4} : {cnop4}**"
+						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}** ✅\n４. **{option_4} : {cnop4}**"
 					else:
 						embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n４. **{option_4} : {cnop4}** ✅"
 					await self.send_hook(embed = embed)
