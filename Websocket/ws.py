@@ -31,7 +31,7 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			webhook = discord.Webhook.from_url(self.web_url, adapter=discord.AsyncWebhookAdapter(session))
 			if not embed:
-			    embed = discord.Embed(title = content, color = discord.Colour.random())
+				embed = discord.Embed(title = content, color = discord.Colour.random())
 			await webhook.send(
 				content = content,
 				embed = embed,
@@ -74,7 +74,7 @@ class Websocket:
 					color = discord.Colour.random()
 					)
 				embed.add_field(name = "Quiz Topic :", value = topic, inline = False)
-				embed.add_field(name = "Prize Money :", value = self.prize, inline = False)
+				embed.add_field(name = "Prize Money :", value = f"ᛗ{self.prize}", inline = False)
 				embed.add_field(name = "Date & Time :", value = time, inline = False)
 				embed.set_thumbnail(url = image)
 				if get_type == "send":
@@ -287,6 +287,12 @@ class Websocket:
 						advance_players = choice["responses"]
 					total_players += choice["responses"]
 				eliminate_players = total_players - advance_players
+				percentAdvancing = (int(advance_players)*(100))/total_players
+				pA = float("{:.2f}".format(percentAdvancing))
+				percentEliminated = (int(eliminate_players)*(100))/total_players
+				pE = float("{:.2f}".format(percentEliminated))
+				ans = (self.prize)/(advance_players)
+				payout = float("{:.2f}".format(ans))
 				embed = discord.Embed(
 					title = f"Question {question_number} out of {total_question}",
 					description = f"[{question}]({google_question})",
@@ -295,7 +301,7 @@ class Websocket:
 					)
 				embed.add_field(name = "Correct Answer :", value = f"Option {ans_num}. {answer}", inline = False)
 				embed.add_field(name = "Status :",
-					value = f"Advancing Players : {advance_players}\nEliminated Players : {eliminate_players}",
+					value = f"Advancing Players : {advance_players} ({pA}%)\nEliminated Players : {eliminate_players} ({pE}%)\nCurrent Payout : ᛗ{payout}",
 					inline = False
 				)
 				embed.set_footer(text = "Mimir Quiz")
@@ -308,7 +314,7 @@ class Websocket:
 				ans = (self.prize)/(winners)
 				payout = float("{:.2f}".format(ans))
 				embed = discord.Embed(title = "Game Summary !",
-					description = f"● Payout : {payout}\n● Total Winners : {winners}\n● Prize Money : {self.prize}",
+					description = f"● Payout : ᛗ{payout}\n● Total Winners : {winners}\n● Prize Money : ᛗ{self.prize}",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
