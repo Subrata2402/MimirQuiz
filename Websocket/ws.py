@@ -32,6 +32,7 @@ class Websocket:
 			webhook = discord.Webhook.from_url(self.web_url, adapter=discord.AsyncWebhookAdapter(session))
 			if not embed:
 				embed = discord.Embed(title = content, color = discord.Colour.random())
+				content = ""
 			await webhook.send(
 				content = content,
 				embed = embed,
@@ -206,7 +207,7 @@ class Websocket:
 				if len(choices) == 4: cnop4 = res.count(option_4)
 				maxcount = max(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
 				mincount = min(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
-				embed = discord.Embed(title="**__Google Results !__**", color=0x000000)
+				embed = discord.Embed(title="**__Google Results !__**", color = discord.Colour.random())
 				if len(choices) == 4:
 					if cnop1 == maxcount:
 						embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n４. **{option_4} : {cnop4}**"
