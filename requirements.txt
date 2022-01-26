@@ -3,3 +3,4 @@ requests
 discord
 sseclient
 pytz
+bs4
