@@ -159,6 +159,7 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
+			print(event)
 			if ws_is_opened == False:
 				return await self.send_hook("Websocket Closed!")
 			if event == "GameStatus":
