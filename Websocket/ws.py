@@ -203,6 +203,7 @@ class Websocket:
 				res = str(r.text)
 				cnop1 = res.count(option_1)
 				cnop2 = res.count(option_2)
+				cnop3 = cnop4 = 0
 				if len(choices) == 3: cnop3 = res.count(option_3)
 				if len(choices) == 4: cnop4 = res.count(option_4)
 				maxcount = max(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
