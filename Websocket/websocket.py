@@ -6,6 +6,7 @@ import datetime
 from sseclient import SSEClient
 import aiohttp
 import asyncio
+from bs4 import BeautifulSoup
 google_question = "https://google.com/search?q="
 question_number = total_question = 0
 
@@ -73,7 +74,7 @@ class Websocket:
 					color = discord.Colour.random()
 					)
 				embed.add_field(name = "Quiz Topic :", value = topic, inline = False)
-				embed.add_field(name = "Prize Money :", value = f"{self.prize} ᛗ", inline = False)
+				embed.add_field(name = "Prize Money :", value = self.prize, inline = False)
 				embed.add_field(name = "Date & Time :", value = time, inline = False)
 				embed.set_thumbnail(url = image)
 				if get_type == "send":
@@ -271,7 +272,7 @@ class Websocket:
 				ans = (self.prize)/(winners)
 				payout = float("{:.2f}".format(ans))
 				embed = discord.Embed(title = "Game Summary !",
-					description = f"● Payout : {payout} ᛗ\n● Total Winners : {winners}\n● Prize Money : {self.prize} ᛗ",
+					description = f"● Payout : {payout}\n● Total Winners : {winners}\n● Prize Money : {self.prize}",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
