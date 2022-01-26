@@ -6,6 +6,8 @@ import datetime
 from sseclient import SSEClient
 import aiohttp
 import asyncio
+google_question = "https://google.com/search?q="
+question_number = total_question = 0
 
 class Websocket:
 	
@@ -167,24 +169,71 @@ class Websocket:
 				pass
 
 			elif event == "QuestionStart":
+				global google_question, question_number, total_question
 				data = json.loads(msg.data)
 				question = data["question"]
 				question_number = data["number"]
 				total_question = data["total"]
-				option_1 = data["choices"][0]["choice"]
-				option_2 = data["choices"][1]["choice"]
-				option_3 = data["choices"][2]["choice"]
+				choices = data["choices"]
+				option_1 = choices[0]["choice"]
+				option_2 = choices[1]["choice"]
+				option_3 = choices[2]["choice"]
+				if len(choices) == 4: option_4 = choices[3]["choice"]
+				raw_question = str(question).replace(" ", "+")
+				raw_options = str(option_1 + option_2 + option_3).replace(" ", "+")
+				google_question = "https://google.com/search?q=" + raw_question
+				search_with_all = "https://google.com/search?q=" + raw_question + raw_options
+				
 				embed = discord.Embed(
 					title = f"Question {question_number} out of {total_question}",
-					description = question,
+					description = f"[{question}]({google_question})\n\n[Search with all options]({search_with_all})",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
-				embed.add_field(name = "Option - 1", value = option_1, inline = False)
-				embed.add_field(name = "Option - 2", value = option_2, inline = False)
-				embed.add_field(name = "Option - 3", value = option_3, inline = False)
+				embed.add_field(name = "Option - 1", value = f"[{option_1}]({search_with_all})", inline = False)
+				embed.add_field(name = "Option - 2", value = f"[{option_2}]({search_with_all})", inline = False)
+				embed.add_field(name = "Option - 3", value = f"[{option_3}]({search_with_all})", inline = False)
+				if len(choices) == 4: embed.add_field(name = "Option - 4", value = f"[{option_4}]({search_with_all})", inline = False)
 				embed.set_thumbnail(url = self.icon_url)
 				embed.set_footer(text = "Mimir Quiz")
+				await self.send_hook(embed = embed)
+				
+				r = requests.get(google_question)
+				soup = BeautifulSoup(r.text, 'html.parser')
+				response = soup.find_all("span", class_="st")
+				res = str(r.text)
+				cnop1 = res.count(option_1)
+				cnop2 = res.count(option_2)
+				cnop3 = res.count(option_3)
+				maxcount = max(cnop1, cnop2, cnop3)
+				mincount = min(cnop1, cnop2, cnop3)
+				embed = discord.Embed(title="**__Google Results !__**", color=0x000000)
+				if cnop1 == maxcount:
+					embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**"
+				elif cnop2 == maxcount:
+					embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}**"
+				else:
+					embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**  ✅"
+				await self.send_hook(embed = embed)
+
+				r = requests.get(google_question)
+				soup = BeautifulSoup(r.text , "html.parser")
+				response = soup.find("div" , class_='BNeawe')
+				result = str(response.text)
+				embed = discord.Embed(
+					description=result,
+					color = discord.Colour.random(),
+					timestamp = datetime.datetime.utcnow()
+					)
+				embed.set_footer(text="Search with Google")
+				if option_1.lower() in result.lower():
+					embed.title=f"**__Option １. {option_1}__**"
+				elif option_2.lower() in result.lower():
+					embed.title=f"**__Option ２. {option_2}__**"
+				elif option_3.lower() in result.lower():
+					embed.title=f"**__Option ３. {option_3}__**"
+				else:
+					embed.title=f"**__Direct Search Result !__**"
 				await self.send_hook(embed = embed)
 
 			elif event == "QuestionEnd":
@@ -203,8 +252,8 @@ class Websocket:
 					total_players += choice["responses"]
 				eliminate_players = total_players - advance_players
 				embed = discord.Embed(
-					title = "Question Result!",
-					description = question,
+					title = f"Question {question_number} out of {total_question}",
+					description = f"[{question}]({google_question})",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
