@@ -23,7 +23,15 @@ class MimirQuiz(commands.Cog, Websocket):
             await self.start_hook()
         else:
             await self.send_hook("**Websocket Already Opened!**")
-            
+         
+    @commands.command()
+    async def close (self, ctx):
+        if self.ws_is_opened:
+            await self.close_hook()
+        else:
+            await self.send_hook("Websocket already closed!")
+   
+    
 
 client = commands.Bot(command_prefix = "-")
 client.add_cog(MimirQuiz(client))
