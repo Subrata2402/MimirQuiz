@@ -174,16 +174,16 @@ class Websocket:
 			elif event == "QuestionStart":
 				global google_question, question_number, total_question
 				data = json.loads(msg.data)
-				question = data["question"]
+				question = str(data["question"]).strip()
 				question_number = data["number"]
 				total_question = data["total"]
 				choices = data["choices"]
 				option_1 = choices[0]["choice"]
 				option_2 = choices[1]["choice"]
-				if len(choices) == 3: option_3 = choices[2]["choice"]
+				if len(choices) >= 3: option_3 = choices[2]["choice"]
 				if len(choices) == 4: option_4 = choices[3]["choice"]
 				raw_question = str(question).replace(" ", "+")
-				raw_options = str(f"{option_1} + {option_2} + {option_3 if len(choices) == 3 else ''} + {option_4 if len(choices) == 4 else ''}").replace(" ", "+")
+				raw_options = str(f"{option_1} + {option_2} + {option_3 if len(choices) >= 3 else ''} + {option_4 if len(choices) == 4 else ''}").replace(" ", "+")
 				google_question = "https://google.com/search?q=" + raw_question
 				search_with_all = "https://google.com/search?q=" + raw_question + raw_options
 				
@@ -195,7 +195,7 @@ class Websocket:
 					)
 				embed.add_field(name = "**Option - １**", value = f"**[{option_1}]({search_with_all})**", inline = False)
 				embed.add_field(name = "**Option - ２**", value = f"**[{option_2}]({search_with_all})**", inline = False)
-				if len(choices) == 3: embed.add_field(name = "**Option - ３**", value = f"**[{option_3}]({search_with_all})**", inline = False)
+				if len(choices) >= 3: embed.add_field(name = "**Option - ３**", value = f"**[{option_3}]({search_with_all})**", inline = False)
 				if len(choices) == 4: embed.add_field(name = "**Option - ４**", value = f"**[{option_4}]({search_with_all})**", inline = False)
 				embed.set_thumbnail(url = self.icon_url)
 				embed.set_footer(text = "Mimir Quiz")
@@ -208,10 +208,10 @@ class Websocket:
 				cnop1 = res.count(option_1)
 				cnop2 = res.count(option_2)
 				cnop3 = cnop4 = 0
-				if len(choices) == 3: cnop3 = res.count(option_3)
+				if len(choices) >= 3: cnop3 = res.count(option_3)
 				if len(choices) == 4: cnop4 = res.count(option_4)
-				maxcount = max(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
-				mincount = min(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
+				maxcount = max(cnop1, cnop2, cnop3 if len(choices) >= 3 else 0, cnop4 if len(choices) == 4 else 0)
+				mincount = min(cnop1, cnop2, cnop3 if len(choices) >= 3 else 0, cnop4 if len(choices) == 4 else 0)
 				embed = discord.Embed(title="**__Google Results !__**", color = discord.Colour.random())
 				if len(choices) == 4:
 					if cnop1 == maxcount:
@@ -284,7 +284,7 @@ class Websocket:
 
 			elif event == "QuestionResult":
 				data = json.loads(msg.data)
-				question = data["question"]
+				question = str(data["question"]).strip()
 				total_players = 0
 				for index, choice in enumerate(data["choices"]):
 					if choice["correct"] == True:
