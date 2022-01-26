@@ -209,15 +209,7 @@ class Websocket:
 				maxcount = max(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
 				mincount = min(cnop1, cnop2, cnop3 if len(choices) == 3 else 0, cnop4 if len(choices) == 4 else 0)
 				embed = discord.Embed(title="**__Google Results !__**", color=0x000000)
-				if len(choices) == 3:
-					if cnop1 == maxcount:
-						embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**"
-					elif cnop2 == maxcount:
-						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}**"
-					else:
-						embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**  ✅"
-					await self.send_hook(embed = embed)
-				elif len(choices) == 4:
+				if len(choices) == 4:
 					if cnop1 == maxcount:
 						embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n4. {option_4} : {cnop4}"
 					elif cnop2 == maxcount:
@@ -226,6 +218,14 @@ class Websocket:
 						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}** ✅\n4. {option_4} : {cnop4}"
 					else:
 						embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n4. {option_4} : {cnop4} ✅"
+					await self.send_hook(embed = embed)
+				elif len(choices) == 3:
+					if cnop1 == maxcount:
+						embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**"
+					elif cnop2 == maxcount:
+						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}**"
+					else:
+						embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**  ✅"
 					await self.send_hook(embed = embed)
 				else:
 					if cnop1 == maxcount:
@@ -243,17 +243,7 @@ class Websocket:
 					timestamp = datetime.datetime.utcnow()
 					)
 				embed.set_footer(text="Search with Google")
-				if len(choices) == 3:
-					if option_1.lower() in result.lower():
-						embed.title=f"**__Option １. {option_1}__**"
-					elif option_2.lower() in result.lower():
-						embed.title=f"**__Option ２. {option_2}__**"
-					elif option_3.lower() in result.lower():
-						embed.title=f"**__Option ３. {option_3}__**"
-					else:
-						embed.title=f"**__Direct Search Result !__**"
-					await self.send_hook(embed = embed)
-				elif len(choices) == 4:
+				if len(choices) == 4:
 					if option_1.lower() in result.lower():
 						embed.title=f"**__Option １. {option_1}__**"
 					elif option_2.lower() in result.lower():
@@ -262,6 +252,16 @@ class Websocket:
 						embed.title=f"**__Option ３. {option_3}__**"
 					elif option_4.lower() in result.lower():
 						embed.title=f"**__Option 4. {option_4}__**"
+					else:
+						embed.title=f"**__Direct Search Result !__**"
+					await self.send_hook(embed = embed)
+				elif len(choices) == 3:
+					if option_1.lower() in result.lower():
+						embed.title=f"**__Option １. {option_1}__**"
+					elif option_2.lower() in result.lower():
+						embed.title=f"**__Option ２. {option_2}__**"
+					elif option_3.lower() in result.lower():
+						embed.title=f"**__Option ３. {option_3}__**"
 					else:
 						embed.title=f"**__Direct Search Result !__**"
 					await self.send_hook(embed = embed)
