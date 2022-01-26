@@ -168,6 +168,9 @@ class Websocket:
 			elif event == "ViewCountUpdate":
 				pass
 
+			elif event == "GameReset":
+				await self.send_hook("The Game has Reset!")
+
 			elif event == "QuestionStart":
 				global google_question, question_number, total_question
 				data = json.loads(msg.data)
