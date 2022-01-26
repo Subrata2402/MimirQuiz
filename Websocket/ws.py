@@ -24,16 +24,14 @@ class Websocket:
 		self.user_id = None
 		self.bearer_token = None
 
-	def embeded(self, x):
-		embed = discord.Embed(title = x, color = discord.Colour.random())
-		return embed
-
 	async def close_hook(self):
 		self.ws_is_opened == False
 
 	async def send_hook(self, content = "", embed = None):
 		async with aiohttp.ClientSession() as session:
 			webhook = discord.Webhook.from_url(self.web_url, adapter=discord.AsyncWebhookAdapter(session))
+			if not embed:
+			    embed = discord.Embed(title = content, color = discord.Colour.random())
 			await webhook.send(
 				content = content,
 				embed = embed,
@@ -57,8 +55,7 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					embed = self.embeded("The Auth token has expired!")
-					await self.send_hook(embed = embed)
+					await self.send_hook("The Auth token has expired!")
 					raise commands.CommandError("Token has expired!")
 				r = await response.json()
 				data = r["data"]["data"][0]
@@ -103,8 +100,7 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.post(url = url, headers = headers, data = post_data) as response:
 				if response.status != 200:
-					embed = self.embeded("Get access token error!")
-					await self.send_hook(embed = embed)
+					await self.send_hook("Get access token error!")
 					raise commands.CommandError("Get access token error...")
 				r = await response.json()
 				new_token = r["oauth"]["accessToken"]
@@ -129,8 +125,7 @@ class Websocket:
 		async with aiohttp.ClientSession() as session:
 			async with session.get(url = url, headers = headers) as response:
 				if response.status != 200:
-					embed = self.embeded("Host Error...(Game is not live)")
-					await self.send_hook(embed = embed)
+					await self.send_hook("Host Error...(Game is not live)")
 					raise commands.CommandError("Host Error")
 				r = await response.json()
 				data = r["game"]
@@ -157,11 +152,9 @@ class Websocket:
 		}
 		try:
 			messages = SSEClient(url, headers = headers)
-			embed = self.embeded("Websocket is Connected Successfully!")
-			await self.send_hook(embed = embed)
+			await self.send_hook("Websocket is Connected Successfully!")
 		except:
-			embed = self.embeded("Failed to connect websocket!")
-			return await self.send_hook(embed = embed)
+			return await self.send_hook("Failed to connect websocket!")
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
