@@ -183,15 +183,15 @@ class Websocket:
 				search_with_all = "https://google.com/search?q=" + raw_question + raw_options
 				
 				embed = discord.Embed(
-					title = f"Question {question_number} out of {total_question}",
-					description = f"[{question}]({google_question})\n\n[Search with all options]({search_with_all})",
+					title = f"**Question {question_number} out of {total_question}**",
+					description = f"**[{question}]({google_question})\n\n[Search with all options]({search_with_all})**",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
-				embed.add_field(name = "Option - 1", value = f"[{option_1}]({search_with_all})", inline = False)
-				embed.add_field(name = "Option - 2", value = f"[{option_2}]({search_with_all})", inline = False)
-				if len(choices) == 3: embed.add_field(name = "Option - 3", value = f"[{option_3}]({search_with_all})", inline = False)
-				if len(choices) == 4: embed.add_field(name = "Option - 4", value = f"[{option_4}]({search_with_all})", inline = False)
+				embed.add_field(name = "**Option - １**", value = f"**[{option_1}]({search_with_all})**", inline = False)
+				embed.add_field(name = "**Option - ２**", value = f"**[{option_2}]({search_with_all})**", inline = False)
+				if len(choices) == 3: embed.add_field(name = "**Option - ３**", value = f"**[{option_3}]({search_with_all})**", inline = False)
+				if len(choices) == 4: embed.add_field(name = "**Option - ４**", value = f"**[{option_4}]({search_with_all})**", inline = False)
 				embed.set_thumbnail(url = self.icon_url)
 				embed.set_footer(text = "Mimir Quiz")
 				await self.send_hook(embed = embed)
@@ -209,13 +209,13 @@ class Websocket:
 				embed = discord.Embed(title="**__Google Results !__**", color=0x000000)
 				if len(choices) == 4:
 					if cnop1 == maxcount:
-						embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n4. {option_4} : {cnop4}"
+						embed.description=f"**１. {option_1} : {cnop1}**  ✅\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n４. **{option_4} : {cnop4}**"
 					elif cnop2 == maxcount:
-						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}**\n4. {option_4} : {cnop4}"
+						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}**\n４. **{option_4}** : {cnop4}"
 					elif cnop3 == maxcount:
-						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}** ✅\n4. {option_4} : {cnop4}"
+						embed.description=f"**１. {option_1} : {cnop1}**\n**２. {option_2} : {cnop2}**  ✅\n**３. {option_3} : {cnop3}** ✅\n４. **{option_4} : {cnop4}**"
 					else:
-						embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n4. {option_4} : {cnop4} ✅"
+						embed.description=f"**１. {option_2} : {cnop1}**\n**２. {option_2} : {cnop2}**\n**３. {option_3} : {cnop3}**\n４. **{option_4} : {cnop4}** ✅"
 					await self.send_hook(embed = embed)
 				elif len(choices) == 3:
 					if cnop1 == maxcount:
@@ -249,7 +249,7 @@ class Websocket:
 					elif option_3.lower() in result.lower():
 						embed.title=f"**__Option ３. {option_3}__**"
 					elif option_4.lower() in result.lower():
-						embed.title=f"**__Option 4. {option_4}__**"
+						embed.title=f"**__Option ４. {option_4}__**"
 					else:
 						embed.title=f"**__Direct Search Result !__**"
 					await self.send_hook(embed = embed)
@@ -294,14 +294,14 @@ class Websocket:
 				ans = (self.prize)/(advance_players)
 				payout = float("{:.2f}".format(ans))
 				embed = discord.Embed(
-					title = f"Question {question_number} out of {total_question}",
-					description = f"[{question}]({google_question})",
+					title = f"**Question {question_number} out of {total_question}**",
+					description = f"**[{question}]({google_question})**",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
-				embed.add_field(name = "Correct Answer :", value = f"Option {ans_num}. {answer}", inline = False)
-				embed.add_field(name = "Status :",
-					value = f"Advancing Players : {advance_players} ({pA}%)\nEliminated Players : {eliminate_players} ({pE}%)\nCurrent Payout : ᛗ{payout}",
+				embed.add_field(name = "**Correct Answer :**", value = f"**Option {ans_num}. {answer}**", inline = False)
+				embed.add_field(name = "**Status :**",
+					value = f"**Advancing Players : {advance_players} ({pA}%)\nEliminated Players : {eliminate_players} ({pE}%)\nCurrent Payout : ᛗ{payout}**",
 					inline = False
 				)
 				embed.set_footer(text = "Mimir Quiz")
@@ -313,8 +313,8 @@ class Websocket:
 				winners = int(data["winnerCount"])
 				ans = (self.prize)/(winners)
 				payout = float("{:.2f}".format(ans))
-				embed = discord.Embed(title = "Game Summary !",
-					description = f"● Payout : ᛗ{payout}\n● Total Winners : {winners}\n● Prize Money : ᛗ{self.prize}",
+				embed = discord.Embed(title = "**__Game Summary !__**",
+					description = f"**● Payout : ᛗ{payout}\n● Total Winners : {winners}\n● Prize Money : ᛗ{self.prize}**",
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
@@ -323,8 +323,8 @@ class Websocket:
 				await self.send_hook(embed = embed)
 				
 			elif event == "GameEnded":
-				embed = discord.Embed(title = "Game has Ended !",
-					description = "Thanks for playing!", color = discord.Colour.random()
+				embed = discord.Embed(title = "**__Game has Ended !__**",
+					description = "**Thanks for playing!**", color = discord.Colour.random()
 					)
 				await self.send_hook(embed = embed)
 				self.ws_is_opened = False
