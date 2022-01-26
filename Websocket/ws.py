@@ -14,6 +14,7 @@ class Websocket:
 	
 	def __init__(self):
 		self.prize = 50
+		self.pattern = []
 		self.web_url = "https://discord.com/api/webhooks/935812979998457856/cQP_G4tAskBoKpOyq9kBFUjFBI0LSODybmkkWwLmMwfHcn_HhPMziREf1b2-BTxegncb"
 		self.token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFXeURtS0VhR0NweTFqb0twckRCYSJ9.eyJuaWNrbmFtZSI6InNha2htYW4yMDAxIiwibmFtZSI6InNha2htYW4yMDAxQGdtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci85NGUyZTFkZDdkYjE2YmQ0OGE2NzY2NDE5OWQ1NWIxMz9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRnNhLnBuZyIsInVwZGF0ZWRfYXQiOiIyMDIyLTAxLTI1VDE3OjA4OjI2LjYxMVoiLCJlbWFpbCI6InNha2htYW4yMDAxQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2F1dGgubWltaXItcHJvZC5jb20vIiwic3ViIjoiYXV0aDB8NjFjYzMwODIzMjgxNmEwMDcxM2E2NmI4IiwiYXVkIjoiSm9vc0FWNU9qblVNYWpIdVR5RHB1WGM1OVRxQk5aYmMiLCJpYXQiOjE2NDMxODc0MDYsImV4cCI6MTY0MzIyMzQwNiwibm9uY2UiOiJXUzVYVTFWc1NraE9iREpTY1haRVUyZHRSekJOY0dVNWVrWnBWbGxPV2tOaGNuQTJWMnBTVmtWd1lRPT0ifQ.C5nBIfWUw2pRP38Boo2p7O82bj6paSNGQSwkLYRI7nn5rNnQ5VrAzVXoEx818xYSgkH-1lo0REYM0qILOaj-VY1n-TuBJruKshFx1bQZX4mo0H7MrKjO2_9jK0wWiBDQ9cO43AocO2t1PIAd07zkcfkMkou7TQywO8_bgqhlACKEawEodP-MuJ1WqThm-6-z_WSVsijJs8_mx7OITCH-OhccnVPKUPUi_OoZTxs8Y0BHni6CMgh8nnWA6HsV9spDm-TIXjs6gpJr2vV-ouHjGxQrGHARDEHwh-lVXjeGVLdJwEqpR-QJtALb0WR7o-gg2zzbuxkwqjBCAGk17koHDg:0x4357d1eE11E7db4455527Fe3dfd0B882Cb334357"
 		self.ws_is_opened = False
@@ -294,6 +295,7 @@ class Websocket:
 						answer = choice["choice"]
 						advance_players = choice["responses"]
 					total_players += choice["responses"]
+				self.pattern.append(str(ans_num))
 				eliminate_players = total_players - advance_players
 				percentAdvancing = (int(advance_players)*(100))/total_players
 				pA = float("{:.2f}".format(percentAdvancing))
@@ -307,11 +309,12 @@ class Websocket:
 					color = discord.Colour.random(),
 					timestamp = datetime.datetime.utcnow()
 					)
-				embed.add_field(name = "**Correct Answer :**", value = f"**Option {ans_num}. {answer}**", inline = False)
-				embed.add_field(name = "**Status :**",
+				embed.add_field(name = "**Correct Answer :-**", value = f"**Option {ans_num}. {answer}**", inline = False)
+				embed.add_field(name = "**Status :-**",
 					value = f"**Advancing Players : {advance_players} ({pA}%)\nEliminated Players : {eliminate_players} ({pE}%)\nCurrent Payout : ᛗ{payout}**",
 					inline = False
 				)
+				embed.add_field(name = "**Ongoing Pattern :-**", value = f"**{self.pattern}**", inline = False)
 				embed.set_footer(text = "Mimir Quiz")
 				embed.set_thumbnail(url = self.icon_url)
 				await self.send_hook(embed = embed)
@@ -336,4 +339,5 @@ class Websocket:
 					)
 				await self.send_hook(embed = embed)
 				self.ws_is_opened = False
+				self.pattern.clear()
 				return
