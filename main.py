@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from Websocket.websocket import Websocket
+from Websocket.ws import Websocket
 
 class MimirQuiz(commands.Cog, Websocket):
     
