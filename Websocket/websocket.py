@@ -162,13 +162,7 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
-			if event == "GameStatus":
-				pass
-
-			elif event == "ViewCountUpdate":
-				pass
-
-			elif event == "QuestionStart":
+			if event == "QuestionStart":
 				global google_question, question_number, total_question
 				data = json.loads(msg.data)
 				question = data["question"]
