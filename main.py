@@ -33,7 +33,7 @@ class MimirQuiz(commands.Cog, Websocket):
    
     
 
-client = commands.Bot(command_prefix = "-")
+client = commands.Bot(command_prefix = ">")
 client.add_cog(MimirQuiz(client))
             
 client.run("ODAzMTc1OTQ1OTMwMTQ1Nzky.YA594w.Hzq49nLxp-KzwFRKh9mqDvi3Mqg")
