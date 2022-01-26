@@ -28,6 +28,9 @@ class Websocket:
 		embed = discord.Embed(title = f"{x}", color = discord.Colour.random())
 		return embed
 
+	async def close_hook(self):
+		self.ws_is_opened == False
+
 	async def send_hook(self, content = "", embed = None):
 		async with aiohttp.ClientSession() as session:
 			webhook = discord.Webhook.from_url(self.web_url, adapter=discord.AsyncWebhookAdapter(session))
@@ -162,6 +165,8 @@ class Websocket:
 		self.ws_is_opened = True
 		for msg in messages:
 			event = msg.event
+			if ws_is_opened == False:
+				return await self.send_hook("Websocket Closed!")
 			if event == "GameStatus":
 				pass
 
