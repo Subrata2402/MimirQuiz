@@ -176,7 +176,7 @@ class Websocket:
 				choices = data["choices"]
 				option_1 = choices[0]["choice"]
 				option_2 = choices[1]["choice"]
-				option_3 = choices[2]["choice"]
+				if len(choices) == 3: option_3 = choices[2]["choice"]
 				if len(choices) == 4: option_4 = choices[3]["choice"]
 				raw_question = str(question).replace(" ", "+")
 				raw_options = str(f"{option_1} + {option_2} + {option_3 if len(choices) == 3 else ''} + {option_4 if len(choices) == 4 else ''}").replace(" ", "+")
